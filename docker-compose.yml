@@ -1,0 +1,107 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────
+# OpenOwl — Full Stack
+# Run with: docker-compose up -d
+# ─────────────────────────────────────────────────────────────
+
+services:
+
+  # ── Main Application ──────────────────────────────────────
+  openowl:
+    build: .
+    container_name: openowl-core
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+      - openowl-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    labels:
+      - "com.openowl.service=core"
+
+  # ── Task Worker (Celery) ──────────────────────────────────
+  worker:
+    build: .
+    container_name: openowl-worker
+    restart: unless-stopped
+    command: celery -A tasks worker --loglevel=info --concurrency=4
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./:/app
+
+  # ── PostgreSQL (Long-term memory) ────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: openowl-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: openowl
+      POSTGRES_USER: openowl
+      POSTGRES_PASSWORD: openowl
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openowl"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Redis (Short-term memory + task queue) ────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: openowl-redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ── Ollama (Local AI Models) ──────────────────────────────
+  # Comment out if you don't have GPU / want to save RAM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: openowl-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama
+    # Uncomment for GPU support:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+volumes:
+  postgres-data:
+  redis-data:
+  ollama-models:
+  openowl-data:
