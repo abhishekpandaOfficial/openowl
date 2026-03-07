@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div class="card hero-panel fade-up reveal">
+    <span class="pill"><span class="pill-dot"></span> Live multi-channel autonomous assistant</span>
+    <h1 class="title">Build with chat.<br/>Ship with autonomy.</h1>
+    <p class="subtitle">
+      OpenOwl is your owl-branded autonomous engineering assistant for Telegram and WhatsApp.
+      It plans, writes code, runs tasks, and reports outcomes with approval guardrails.
+    </p>
+    <div class="chips">
+      <span class="chip">OSS-first model routing</span>
+      <span class="chip">Desktop mission control</span>
+      <span class="chip">Production-safe approvals</span>
+    </div>
+    <div class="btns">
+      <a href="/dashboard" class="btn primary">Open Desktop View</a>
+      <a href="/docs" class="btn">API Docs</a>
+      <a href="/health" class="btn">Health Check</a>
+    </div>
+
+    <div class="stats-strip">
+      <div class="stat-box">
+        <div class="value">4</div>
+        <div class="label">Channels</div>
+      </div>
+      <div class="stat-box">
+        <div class="value">OSS</div>
+        <div class="label">Model-first routing</div>
+      </div>
+      <div class="stat-box">
+        <div class="value">RT</div>
+        <div class="label">Realtime desktop logs</div>
+      </div>
+      <div class="stat-box">
+        <div class="value">Safe</div>
+        <div class="label">Approval guardrails</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card float fade-up delay-2 reveal">
+    <div class="owl-showcase">
+      <div class="owl-avatar">
+        <img src="/static/images/owl-logo.svg" alt="OpenOwl owl" style="width:56px;height:56px;display:block;" />
+      </div>
+      <div>
+        <h3 style="margin:0 0 6px;">OpenOwl Core Flow</h3>
+        <p class="muted" style="margin:0;">Conversation-native engineering orchestration</p>
+      </div>
+    </div>
+
+    <p class="muted" style="line-height:1.7;margin:0;">
+      Receive message → classify intent → choose model → run tools → request approvals (if needed) → reply + save memory.
+    </p>
+
+    <div class="icon-grid">
+      <div class="icon-tile">
+        <div class="icon-wrap">🧠</div>
+        <div class="icon-label">Intent + Planning</div>
+        <div class="icon-sub">Model-aware task decomposition</div>
+      </div>
+      <div class="icon-tile">
+        <div class="icon-wrap">⚡</div>
+        <div class="icon-label">Execution</div>
+        <div class="icon-sub">Tools, retries, and fast replies</div>
+      </div>
+      <div class="icon-tile">
+        <div class="icon-wrap">🔒</div>
+        <div class="icon-label">Safety</div>
+        <div class="icon-sub">Approval checkpoints for risky actions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<h2 class="section-title fade-up delay-1 reveal">Polished experience, desktop-first</h2>
+<section class="features">
+  <article class="card feature fade-up delay-1 reveal">
+    <h3>Animated Landing</h3>
+    <p>Gradient glow, floating owl logo, subtle transitions, and conversion-focused CTAs.</p>
+  </article>
+  <article class="card feature fade-up delay-2 reveal">
+    <h3>Desktop Mission Control</h3>
+    <p>Live websocket events, model/run visibility, and session logs for operational confidence.</p>
+  </article>
+  <article class="card feature fade-up delay-3 reveal">
+    <h3>Task-Ready Pages</h3>
+    <p>Dedicated Setup and Features pages so users can onboard and understand capabilities quickly.</p>
+  </article>
+</section>
+
+<section class="feature-grid-2" style="margin-top:14px;">
+  <article class="card feature-large fade-up delay-2 reveal">
+    <span class="feature-tag">Showcase Mode</span>
+    <h3 style="margin:0;">Built for demos and user onboarding</h3>
+    <p class="muted" style="margin:0;line-height:1.7;">Use this landing page to communicate product value in under 30 seconds with iconography, concise motion, and clear actions.</p>
+    <div class="code-block">/build ecommerce admin dashboard with auth + analytics<br/>→ OpenOwl plans → writes code → verifies → returns preview link</div>
+  </article>
+
+  <article class="card feature-large fade-up delay-3 reveal">
+    <span class="feature-tag">Owl Brand System</span>
+    <h3 style="margin:0;">Consistent iconography + logo language</h3>
+    <p class="muted" style="margin:0;line-height:1.7;">Owl logo, icon tiles, status pills, and glassmorphism cards are unified across all pages for a premium product identity.</p>
+    <div class="btns" style="margin-top:2px;">
+      <a href="/features" class="btn">See Feature Library</a>
+      <a href="/setup" class="btn">View Setup Path</a>
+    </div>
+  </article>
+</section>
+{% endblock %}

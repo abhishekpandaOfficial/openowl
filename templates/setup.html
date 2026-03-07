@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 style="margin-top:0;" class="fade-up reveal">Setup Guide</h1>
+<p class="muted fade-up delay-1 reveal">Fast local setup for desktop-first development and Telegram webhook testing.</p>
+
+<section class="card fade-up delay-1 reveal">
+  <h3 style="margin-top:0;">🛠️ 1) Install and configure</h3>
+  <p class="muted">Copy environment, fill tokens, and ensure Ollama/Groq keys are available.</p>
+  <div class="code-block">cp .env.example .env
+# edit .env for TELEGRAM_BOT_TOKEN, GROQ_API_KEY, OWNER_ID
+  </div>
+</section>
+
+<section class="card fade-up delay-2 reveal" style="margin-top:14px;">
+  <h3 style="margin-top:0;">🚀 2) Start dependencies</h3>
+  <div class="code-block">docker-compose up -d postgres redis
+source .venv/bin/activate
+uvicorn main:app --reload --port 8000</div>
+</section>
+
+<section class="card fade-up delay-3 reveal" style="margin-top:14px;">
+  <h3 style="margin-top:0;">🌐 3) Expose webhook + verify</h3>
+  <div class="code-block">ngrok http 8000
+# set TELEGRAM_WEBHOOK_URL in .env
+# restart app
+curl http://localhost:8000/health</div>
+  <div class="btns">
+    <a class="btn" href="/dashboard">Open Desktop UI</a>
+    <a class="btn" href="/docs">Check API Docs</a>
+  </div>
+</section>
+{% endblock %}

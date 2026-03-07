@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="desktop-header fade-up reveal">
+  <div>
+    <h1 style="margin:0;">OpenOwl Desktop</h1>
+    <p class="muted" style="margin:8px 0 0;">Real-time mission control for events from Telegram/WhatsApp and autonomous task lifecycle.</p>
+  </div>
+  <div class="badge"><span class="pill-dot"></span> Mission Control Active</div>
+</div>
+
+<section class="dashboard-grid">
+  <aside class="card fade-up delay-1 reveal">
+    <h3 style="margin-top:0;">Runtime</h3>
+    <p class="muted">🛰️ WebSocket: <strong id="ws-state" class="warn">CONNECTING</strong></p>
+    <p class="muted">📨 Events received: <strong id="msg-count">0</strong></p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:14px 0;" />
+    <div class="sidebar-section">
+      <div class="sidebar-title">Quick Links</div>
+      <div class="quick-links">
+        <a class="quick-link" href="/health"><span>🩺 Health</span><span>→</span></a>
+        <a class="quick-link" href="/docs"><span>📚 OpenAPI</span><span>→</span></a>
+        <a class="quick-link" href="/features"><span>✨ Features</span><span>→</span></a>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Live Context</div>
+      <p class="muted" style="margin:0;line-height:1.7;">This stream reflects incoming channel events and autonomous workflow state updates in near real time.</p>
+    </div>
+  </aside>
+
+  <section class="card fade-up delay-2 reveal">
+    <h3 style="margin-top:0;">Activity Stream</h3>
+    <div id="log" class="log">
+      <div class="log-item"><span class="muted">—</span> <strong>[SYSTEM]</strong> Waiting for events...</div>
+    </div>
+  </section>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 style="margin-top:0;" class="fade-up reveal">OpenOwl Features</h1>
+<p class="muted fade-up delay-1 reveal">Core capabilities for autonomous coding workflows with low-cost model routing.</p>
+
+<section class="features" style="margin-top:16px;">
+  <article class="card feature fade-up delay-1 reveal">
+    <h3>💬 Multi-Channel Triggering</h3>
+    <p>Run tasks from Telegram, WhatsApp, and SMS with two-way responses and consistent context.</p>
+  </article>
+  <article class="card feature fade-up delay-2 reveal">
+    <h3>🧠 Model Priority Chain</h3>
+    <p>Use local/open-source models first, then fallback to premium providers only when necessary.</p>
+  </article>
+  <article class="card feature fade-up delay-3 reveal">
+    <h3>🔒 Guardrailed Autonomy</h3>
+    <p>Approval checks for risky actions like payments, external messages, and destructive operations.</p>
+  </article>
+  <article class="card feature fade-up delay-1 reveal">
+    <h3>🧾 Memory Layer</h3>
+    <p>Redis + Postgres powered user memory for continuity, personalization, and context carryover.</p>
+  </article>
+  <article class="card feature fade-up delay-2 reveal">
+    <h3>📡 Realtime Desktop UI</h3>
+    <p>Live websocket feed for operations and debugging with an owl-themed desktop dashboard.</p>
+  </article>
+  <article class="card feature fade-up delay-3 reveal">
+    <h3>🧩 Plugin-Friendly Design</h3>
+    <p>Add tools and integrations in modular Python files and register them in your agent graph.</p>
+  </article>
+</section>
+
+<section class="feature-grid-2" style="margin-top:14px;">
+  <article class="card feature-large fade-up delay-2 reveal">
+    <span class="feature-tag">Operator Experience</span>
+    <h3 style="margin:0;">Built for confidence during live demos</h3>
+    <p class="muted" style="margin:0;line-height:1.7;">Visual signals, logs, quick actions, and consistent iconography make it easy for users to understand what the system is doing.</p>
+  </article>
+  <article class="card feature-large fade-up delay-3 reveal">
+    <span class="feature-tag">Low-Cost Strategy</span>
+    <h3 style="margin:0;">Open-source-first, premium fallback only</h3>
+    <p class="muted" style="margin:0;line-height:1.7;">Optimize quality and cost by routing simpler tasks to OSS models and reserving paid models for hard reasoning or recovery paths.</p>
+  </article>
+</section>
+{% endblock %}

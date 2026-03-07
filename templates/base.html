@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title or "OpenOwl" }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">
+        <img src="/static/images/owl-logo.svg" alt="OpenOwl logo" class="logo pulse" />
+        <span>OpenOwl</span>
+      </a>
+      <nav class="nav">
+        <a href="/" class="{% if nav == 'home' %}active{% endif %}">Landing</a>
+        <a href="/dashboard" class="{% if nav == 'dashboard' %}active{% endif %}">Desktop</a>
+        <a href="/features" class="{% if nav == 'features' %}active{% endif %}">Features</a>
+        <a href="/setup" class="{% if nav == 'setup' %}active{% endif %}">Setup</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">{% block content %}{% endblock %}</main>
+
+  <footer class="footer">🦉 OpenOwl · Personal Autonomous Agent · WhatsApp + Telegram + SMS + Voice · Showcase UI</footer>
+  <script src="/static/js/site.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

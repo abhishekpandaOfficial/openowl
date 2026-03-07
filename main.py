@@ -20,6 +20,8 @@ import uvicorn
 from fastapi import FastAPI, Request, HTTPException, WebSocket, WebSocketDisconnect, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 from config import settings
 from memory.store import OwlMemory
@@ -124,6 +126,9 @@ app = FastAPI(
     version=settings.app_version,
     lifespan=lifespan,
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 app.add_middleware(
     CORSMiddleware,
@@ -348,63 +353,46 @@ async def dashboard_ws(websocket: WebSocket):
         logger.info("Dashboard disconnected")
 
 
-# ── DASHBOARD HTML ────────────────────────────────────────────────────────────
+# ── UI PAGES ─────────────────────────────────────────────────────────────────
 
 @app.get("/", response_class=HTMLResponse)
-async def dashboard():
-    """Serve the built-in minimal dashboard."""
-    return HTMLResponse(content="""
-<!DOCTYPE html>
-<html>
-<head>
-  <title>OpenOwl Dashboard</title>
-  <meta charset="UTF-8">
-  <style>
-    body { background: #04060f; color: #d4deff; font-family: monospace; padding: 20px; }
-    h1 { color: #4d9fff; margin-bottom: 4px; }
-    .sub { color: #4a5880; margin-bottom: 20px; }
-    #log { background: #080d1c; border: 1px solid #1a2540; padding: 16px;
-           height: 400px; overflow-y: auto; border-radius: 8px; }
-    .event { padding: 6px 0; border-bottom: 1px solid #1a2540; font-size: 12px; }
-    .event .time { color: #4a5880; margin-right: 8px; }
-    .event .type { color: #4d9fff; margin-right: 8px; }
-    .status { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-    .stat { background: #080d1c; border: 1px solid #1a2540; padding: 8px 14px; border-radius: 6px; }
-    .stat-val { font-size: 18px; font-weight: bold; color: #00e5a0; }
-    .stat-lbl { font-size: 10px; color: #4a5880; }
-    a { color: #4d9fff; }
-  </style>
-</head>
-<body>
-  <h1>🦉 OpenOwl</h1>
-  <div class="sub">Real-time Mission Control · <a href="/docs">API Docs</a> · <a href="/health">Health</a></div>
-  <div class="status">
-    <div class="stat"><div class="stat-val" id="msg-count">0</div><div class="stat-lbl">MESSAGES</div></div>
-    <div class="stat"><div class="stat-val" id="ws-status" style="color:#f5a623">CONNECTING</div><div class="stat-lbl">WEBSOCKET</div></div>
-  </div>
-  <div id="log"><div class="event"><span class="time">—</span><span class="type">[SYSTEM]</span>Waiting for events...</div></div>
-  <script>
-    let msgCount = 0;
-    const log = document.getElementById('log');
-    const ws = new WebSocket(`ws://${location.host}/ws/dashboard`);
-    ws.onopen = () => { document.getElementById('ws-status').textContent = 'LIVE'; document.getElementById('ws-status').style.color='#00e5a0'; };
-    ws.onclose = () => { document.getElementById('ws-status').textContent = 'DISCONNECTED'; document.getElementById('ws-status').style.color='#ff5f7e'; };
-    ws.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      if (data.type === 'ping') return;
-      msgCount++;
-      document.getElementById('msg-count').textContent = msgCount;
-      const div = document.createElement('div');
-      div.className = 'event';
-      const time = new Date().toTimeString().slice(0,8);
-      div.innerHTML = `<span class="time">${time}</span><span class="type">[${data.type.toUpperCase()}]</span>${JSON.stringify(data.data || data.message || '').slice(0,120)}`;
-      log.insertBefore(div, log.firstChild);
-      if (log.children.length > 100) log.removeChild(log.lastChild);
-    };
-  </script>
-</body>
-</html>
-""")
+async def landing_page(request: Request):
+        """Serve polished landing page."""
+        return templates.TemplateResponse(
+                request,
+                "landing.html",
+                {"title": "OpenOwl · Landing", "nav": "home"},
+        )
+
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard_page(request: Request):
+        """Serve desktop mission control dashboard."""
+        return templates.TemplateResponse(
+                request,
+                "dashboard.html",
+                {"title": "OpenOwl · Desktop", "nav": "dashboard"},
+        )
+
+
+@app.get("/features", response_class=HTMLResponse)
+async def features_page(request: Request):
+        """Serve features showcase page."""
+        return templates.TemplateResponse(
+                request,
+                "features.html",
+                {"title": "OpenOwl · Features", "nav": "features"},
+        )
+
+
+@app.get("/setup", response_class=HTMLResponse)
+async def setup_page(request: Request):
+        """Serve setup/onboarding page."""
+        return templates.TemplateResponse(
+                request,
+                "setup.html",
+                {"title": "OpenOwl · Setup", "nav": "setup"},
+        )
 
 
 # ── MAIN ENTRY POINT ──────────────────────────────────────────────────────────
